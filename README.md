@@ -14,7 +14,7 @@ This project explores the effectiveness of pre-trained Large Language Models (LL
 - **Evaluation**: The Silhouette Score was used to evaluate clustering quality, with scores of -0.26 and 0.03 in two experiments.
 
 ## Poster Project
-<img src="project_poster/ATIML-Project.png" alt="Image 1" width="1148" height="768" title="UNet"> 
+<img src="project_poster/ATIML-Project.png" alt="Image 1" width="800" height="768"> 
 
 
 ## References
