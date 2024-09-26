@@ -11,10 +11,8 @@ The 20 Newsgroups dataset, with 20,000 documents across 20 categories, serves as
 - **Clustering**: Applied the COP-Kmeans algorithm with must-link and cannot-link constraints derived from cosine similarity.
 - **Evaluation**: The Silhouette Score was used to evaluate clustering quality, with scores of -0.26 and 0.03 in two experiments.
 
-## Challenges
-- Limited data usage due to computational constraints.
-- Issues with constraint handling in COP-Kmeans.
-- Difficulty integrating LIME-XAI with LLM embeddings for text generation.
+## Poster Project
+<img src="images/image_UNet.png" alt="Image 1" width="800" height="250" title="UNet"> 
 
 
 ## References
