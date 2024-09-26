@@ -1,9 +1,11 @@
 # Semi-Supervised-Text-Analysis-Using-LLMs
 ## Overview
-This project explores the use of pre-trained Large Language Models (LLMs) to cluster text data from the 20 Newsgroups dataset. By leveraging embeddings from multiple LLMs and applying the COP-Kmeans algorithm, we aim to achieve meaningful text clustering.
+This project explores the effectiveness of pre-trained Large Language Models (LLMs) in clustering textual data from the 20 Newsgroups dataset. By leveraging embeddings from multiple LLMs, we applied the COP-Kmeans algorithm to create meaningful clusters, facilitating unsupervised text analysis.
+
 
 ## Dataset
-The 20 Newsgroups dataset, with 20,000 documents across 20 categories, serves as a benchmark for text classification and clustering.
+20 Newsgroups: 20,000 documents across 20 categories, used as a benchmark for clustering tasks.
+
 
 ## Methodology
 
@@ -12,7 +14,7 @@ The 20 Newsgroups dataset, with 20,000 documents across 20 categories, serves as
 - **Evaluation**: The Silhouette Score was used to evaluate clustering quality, with scores of -0.26 and 0.03 in two experiments.
 
 ## Poster Project
-<img src="images/image_UNet.png" alt="Image 1" width="800" height="250" title="UNet"> 
+<img src="project_poster/ATIML-Project.png" alt="Image 1" width="1148" height="768" title="UNet"> 
 
 
 ## References
