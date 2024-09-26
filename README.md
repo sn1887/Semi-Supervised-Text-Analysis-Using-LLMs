@@ -11,7 +11,7 @@ This project explores the effectiveness of pre-trained Large Language Models (LL
 
 - **Embedding Extraction**: Used six LLMs (e.g., DeBERTa, LongFormer) to generate sentence embeddings, followed by dimensionality reduction.
 - **Clustering**: Applied the COP-Kmeans algorithm with must-link and cannot-link constraints derived from cosine similarity.
-- **Evaluation**: The Silhouette Score was used to evaluate clustering quality, with scores of -0.26 and 0.03 in two experiments.
+- **Evaluation**: The Silhouette Score was used to evaluate clustering quality, with scores of 0.1 and 0.03 in two experiments.
 
 ## Poster Project
 <img src="project_poster/ATIML-Project.png" alt="Image 1" width="1000" height="600"> 
