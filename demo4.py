@@ -1,5 +1,4 @@
 import os
-import argparse
 import cv2
 import torch
 from detectron2.engine import DefaultPredictor
@@ -7,55 +6,70 @@ from detectron2.config import get_cfg
 from detectron2.utils.visualizer import Visualizer
 from detectron2.data import MetadataCatalog
 
-def main(args):
-    # Create output directory
-    os.makedirs(args.output_dir, exist_ok=True)
+def run_inference(
+    config_file: str,
+    model_weights: str,
+    input_folder: str,
+    output_folder: str,
+    dataset_name: str = None,
+    score_thresh: float = 0.5,
+):
+    """
+    Run inference on all images in `input_folder` and save visualizations to `output_folder`.
 
-    # --- Load config ---
+    Args:
+        config_file: Path to Detectron2 config .yaml file (same one used for training).
+        model_weights: Path to trained .pth checkpoint.
+        input_folder: Folder containing test images.
+        output_folder: Folder where predictions will be saved.
+        dataset_name: Dataset metadata name for visualization (optional).
+        score_thresh: Confidence threshold for predictions.
+    """
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Load config
     cfg = get_cfg()
-    cfg.merge_from_file(args.config_file)  # e.g. detectron2 configs YAML
-    cfg.MODEL.WEIGHTS = args.model_path
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = args.conf_thresh  # set threshold
+    cfg.merge_from_file(config_file)
+    cfg.MODEL.WEIGHTS = model_weights
+    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = score_thresh
     cfg.MODEL.DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
     predictor = DefaultPredictor(cfg)
-    metadata = MetadataCatalog.get(cfg.DATASETS.TEST[0]) if len(cfg.DATASETS.TEST) > 0 else MetadataCatalog.get("__unused")
 
-    # --- Process images ---
-    for fname in os.listdir(args.input_dir):
-        if not fname.lower().endswith((".jpg", ".jpeg", ".png")):
+    # Metadata for coloring / labels
+    metadata = None
+    if dataset_name and dataset_name in MetadataCatalog.list():
+        metadata = MetadataCatalog.get(dataset_name)
+
+    # Loop over all images in the folder
+    for fname in os.listdir(input_folder):
+        fpath = os.path.join(input_folder, fname)
+        if not os.path.isfile(fpath):
             continue
 
-        fpath = os.path.join(args.input_dir, fname)
         img = cv2.imread(fpath)
         if img is None:
-            print(f"[WARN] Could not read {fpath}")
             continue
 
         outputs = predictor(img)
 
         v = Visualizer(img[:, :, ::-1], metadata=metadata, scale=1.2)
-        vis = v.draw_instance_predictions(outputs["instances"].to("cpu"))
-        result = vis.get_image()[:, :, ::-1]
+        v = v.draw_instance_predictions(outputs["instances"].to("cpu"))
+        vis_img = v.get_image()[:, :, ::-1]
 
-        out_path = os.path.join(args.output_dir, fname)
-        cv2.imwrite(out_path, result)
-        print(f"[INFO] Saved {out_path}")
+        out_path = os.path.join(output_folder, fname)
+        cv2.imwrite(out_path, vis_img)
+
+        print(f"Saved: {out_path}")
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model-path", required=True, help="Path to .pkl model")
-    parser.add_argument("--config-file", required=True, help="Path to config YAML")
-    parser.add_argument("--input-dir", required=True, help="Folder with test images")
-    parser.add_argument("--output-dir", default="inference_results", help="Folder to save visualized predictions")
-    parser.add_argument("--conf-thresh", type=float, default=0.5, help="Confidence threshold for predictions")
-    args = parser.parse_args()
-
-    main(args)
-
-python inference_and_save.py \
-  --model-path ./output/model_final.pkl \
-  --config-file ./configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
-  --input-dir ./datasets/my_test/images \
-  --output-dir ./predictions
-
+    # Example usage
+    run_inference(
+        config_file="configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml",
+        model_weights="output/model_final.pth",
+        input_folder="datasets/test_images",
+        output_folder="outputs/test_predictions",
+        dataset_name="coco_2017_val",  # or your custom dataset name
+        score_thresh=0.5,
+    )
