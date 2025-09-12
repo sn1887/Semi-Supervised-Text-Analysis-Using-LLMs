@@ -52,3 +52,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args)
+
+python inference_and_save.py \
+  --model-path ./output/model_final.pkl \
+  --config-file ./configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
+  --input-dir ./datasets/my_test/images \
+  --output-dir ./predictions
+
