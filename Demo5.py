@@ -300,6 +300,17 @@ DATALOADER:
 
 
 
+# ConvNeXt Tiny
+curl -L -o convnext_tiny_1k_224.pth https://huggingface.co/timm/convnext_tiny.fb_in1k/resolve/main/pytorch_model.bin
+
+# ConvNeXt Small
+curl -L -o convnext_small_1k_224.pth https://huggingface.co/timm/convnext_small.fb_in1k/resolve/main/pytorch_model.bin
+
+# ConvNeXt Base
+curl -L -o convnext_base_1k_224.pth https://huggingface.co/timm/convnext_base.fb_in1k/resolve/main/pytorch_model.bin
+
+# ConvNeXt Large
+curl -L -o convnext_large_1k_224.pth https://huggingface.co/timm/convnext_large.fb_in1k/resolve/main/pytorch_model.bin
 
 
 
